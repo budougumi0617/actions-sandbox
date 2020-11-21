@@ -6,9 +6,6 @@ on:
 jobs:
   ifelse-pattern:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE_IT_VERSION: 14.2.1
     steps:
       - name: Check out codes
         uses: actions/checkout@v2
