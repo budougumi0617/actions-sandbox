@@ -1,0 +1,25 @@
+name: ifelse pattern
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release-operation:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_IT_VERSION: 14.2.1
+    steps:
+      - name: Check out codes
+        uses: actions/checkout@v2
+      - name: foo
+        id: foo
+        if: contains(toJSON(github.event.commits.*.message), 'foo')
+        run:  echo 'if step!'
+      - name: bar
+        id: bar
+        if: steps.foo.conclusion == 'skipped'  && contains(toJSON(github.event.commits.*.message), 'bar')
+        run:  echo 'elseif step!'
+      - name: other
+        if: !(steps.foo.conclusion == 'success' || steps.bar.conclusion == 'success')
+        run:  echo 'else step!'
